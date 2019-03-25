@@ -164,7 +164,7 @@ if (opt.options.help) {
   process.exit(Constants.DONT_RESTART_EXIT_CODE);
 }
 
-if (opt.argv.length != 1) {
+if (opt.argv.length !== 1) {
   console.error('Expecting a single package to load');
   process.exit(Constants.DONT_RESTART_EXIT_CODE);
 }
