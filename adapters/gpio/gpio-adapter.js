@@ -59,12 +59,12 @@ class GpioDevice extends Device {
     if (pinConfig.name === undefined) {
       pinConfig.name = id;
     }
-    if (pinConfig.direction == 'in') {
+    if (pinConfig.direction === 'in') {
       if (pinConfig.edge === undefined) {
         pinConfig.edge = 'none';
       }
       this.gpio = new Gpio(pin, 'in', pinConfig.edge);
-    } else if (pinConfig.direction == 'out') {
+    } else if (pinConfig.direction === 'out') {
       this.gpio = new Gpio(pin, 'out');
 
       // Unfortunately, the onoff library writes to the direction file
