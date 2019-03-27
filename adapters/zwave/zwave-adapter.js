@@ -369,7 +369,7 @@ function findZWavePort(callback) {
 }
 
 function loadZWaveAdapters(adapterManager) {
-  findZWavePort(function (error, port) {
+  findZWavePort((error, port) => {
     if (error) {
       console.error('Unable to find ZWave adapter');
       return;
@@ -380,8 +380,7 @@ function loadZWaveAdapters(adapterManager) {
     new ZWaveAdapter(adapterManager, port);
 
     // The zwave adapter will be added when it's driverReady method is called.
-    // Prior to that we don't know what the homeID of the adapter is.
-  });
+    });
 }
 
 module.exports = loadZWaveAdapters;
