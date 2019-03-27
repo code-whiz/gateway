@@ -294,7 +294,7 @@ class AdapterManager extends EventEmitter {
     this.emit('thing-removed', thing);
 
     var deferredRemove = this.deferredRemove;
-    if (deferredRemove && deferredRemove.adapter == device.adapter) {
+    if (deferredRemove && deferredRemove.adapter === device.adapter) {
       this.deferredRemove = null;
       deferredRemove.resolve(device.id);
     }
