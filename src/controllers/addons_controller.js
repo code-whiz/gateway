@@ -5,7 +5,7 @@ const Settings = require('../models/settings');
 const AddonsController = PromiseRouter();
 
 AddonsController.get('/', async (request, response) => {
-  Settings.getAddonSettings().then(result => {
+  Settings.getAddonSettings().then(function(result) {
     if (typeof result === 'undefined') {
       response.status(404).json([]);
     } else {
@@ -25,7 +25,7 @@ AddonsController.get('/', async (request, response) => {
 
       response.status(200).json(installedAddons);
     }
-  }).catch(e => {
+  }).catch(function(e) {
     console.error('Failed to get add-on settings.');
     console.error(e);
     response.status(400).send(e);
