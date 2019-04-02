@@ -35,7 +35,7 @@ const TEST_THING = {
   },
 };
 
-describe('oauth/', function() {
+describe('oauth/', () => {
   let clientServer, oauth2, customCallbackHandler, userJWT;
 
   async function addDevice(desc = TEST_THING) {
