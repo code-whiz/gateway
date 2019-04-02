@@ -72,7 +72,7 @@ async function loadAddon(addonPath, verbose) {
     newSettings.moziot.config = {};
   }
 
-  const pluginClient = new PluginClient(packageName, {verbose: verbose});
+  const pluginClient = new PluginClient(packageName, {verbose});
 
   if (config.get('ipc.protocol') !== 'inproc') {
     pluginClient.on('unloaded', () => process.exit(0));
