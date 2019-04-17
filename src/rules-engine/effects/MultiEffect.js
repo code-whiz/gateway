@@ -17,9 +17,7 @@ class MultiEffect extends Effect {
     super(desc);
     const fromDescription = require('./index').fromDescription;
 
-    this.effects = desc.effects.map(function(effect) {
-      return fromDescription(effect);
-    });
+    this.effects = desc.effects.map(effect => fromDescription(effect));
   }
 
   /**
