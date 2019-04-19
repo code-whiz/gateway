@@ -126,7 +126,7 @@ const piDescr = {
   },
 };
 
-describe('things/', function() {
+describe('things/', () => {
   let jwt;
   beforeEach(async () => {
     jwt = await createUser(server, TEST_USER);
