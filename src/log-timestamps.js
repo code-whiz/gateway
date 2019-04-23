@@ -38,7 +38,7 @@ if (!console.constructor.hooked) {
     const callsites = require('callsites');
 
     console.constructor.write = function write(buffer, type, message, level) {
-      const call = callsites()[level != null ? level : 2];
+      const call = callsites()[level !== null ? level : 2];
       const origin = `${call.getFileName()}:${call.getLineNumber()}`;
       buffer.push({message: logPrefix() + message, origin, type});
       return buffer;
