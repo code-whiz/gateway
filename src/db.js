@@ -155,7 +155,7 @@ const Database = {
       this.db.run(
         'INSERT INTO users (email, password, name) VALUES (?, ?, ?)',
         [defaultUser.email.toLowerCase(), passwordHash, defaultUser.name],
-        function(error) {
+        error => {
           if (error) {
             console.error('Failed to save default user.');
           } else {
@@ -165,7 +165,7 @@ const Database = {
     }
 
     // Add any settings provided.
-    const generateSettings = function(obj, baseKey) {
+    const generateSettings = (obj, baseKey) => {
       const settings = [];
 
       for (const key in obj) {
@@ -190,7 +190,7 @@ const Database = {
       this.db.run(
         'INSERT INTO settings (key, value) VALUES (?, ?)',
         [setting[0], setting[1]],
-        function(error) {
+        error => {
           if (error) {
             console.error(`Failed to insert setting ${
               setting[0]}`);
@@ -211,7 +211,7 @@ const Database = {
     return new Promise((function(resolve, reject) {
       this.db.all(
         'SELECT id, description FROM things',
-        (function(err, rows) {
+        ((err, rows) => {
           if (err) {
             reject(err);
           } else {
@@ -239,7 +239,7 @@ const Database = {
       db.run(
         'INSERT INTO things (id, description) VALUES (?, ?)',
         [id, JSON.stringify(description)],
-        function(error) {
+        error => {
           if (error) {
             reject(error);
           } else {
@@ -261,7 +261,7 @@ const Database = {
       db.run(
         'UPDATE things SET description=? WHERE id=?',
         [JSON.stringify(description), id],
-        function(error) {
+        error => {
           if (error) {
             reject(error);
           } else {
@@ -279,7 +279,7 @@ const Database = {
   removeThing: function(id) {
     return new Promise((function(resolve, reject) {
       const db = this.db;
-      db.run('DELETE FROM things WHERE id = ?', id, function(error) {
+      db.run('DELETE FROM things WHERE id = ?', id, error => {
         if (error) {
           reject(error);
         } else {
@@ -298,7 +298,7 @@ const Database = {
       db.get(
         'SELECT * FROM users WHERE email = ?',
         email,
-        function(error, row) {
+        (error, row) => {
           if (error) {
             reject(error);
           } else {
@@ -555,7 +555,7 @@ const Database = {
       this.db.all(
         'SELECT id, subscription FROM pushSubscriptions',
         [],
-        function(err, rows) {
+        (err, rows) => {
           if (err) {
             reject(err);
             return;
@@ -591,7 +591,7 @@ const Database = {
 
   get: function(sql, ...params) {
     return new Promise((accept, reject) => {
-      params.push(function(err, row) {
+      params.push((err, row) => {
         if (err) {
           reject(err);
           return;
