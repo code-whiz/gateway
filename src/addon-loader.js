@@ -54,7 +54,7 @@ async function loadAddon(addonPath, verbose) {
   }
   const packageName = manifest.name;
 
-  const pluginClient = new PluginClient(packageName, {verbose: verbose});
+  const pluginClient = new PluginClient(packageName, {verbose});
 
   let addonManagerProxy;
   const pluginClientPromise = pluginClient.register().then((proxy) => {
