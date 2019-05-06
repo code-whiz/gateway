@@ -32,7 +32,7 @@ var NewThing = function(id, description) {
  * HTML view for New Thing.
  */
 NewThing.prototype.view = function() {
-  switch(this.description.type) {
+  switch (this.description.type) {
     case 'onOffSwitch':
       return '<div id="new-thing-' + this.id + '"' +
              '  class="new-thing on-off-switch">' +
@@ -87,15 +87,13 @@ NewThing.prototype.save = function() {
       'Content-Type': 'application/json'
     }
   })
-  .then((function(response) {
-    return response.json();
-  }).bind(this)).then((function(json) {
+  .then((response => response.json()).bind(this)).then((function(json) {
     console.log('Successfully created thing ' + json);
     this.nameInput.disabled = true;
     this.saveButton.innerHTML = 'Saved';
     this.saveButton.disabled = true;
   }).bind(this))
-  .catch(function(error) {
+  .catch(error => {
     console.error('Failed to save thing ' + error);
   });
 };
