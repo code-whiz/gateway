@@ -18,7 +18,7 @@ var ActionsController = express.Router();
 /**
  * Handle creating a new action.
  */
-ActionsController.post('/', function (request, response) {
+ActionsController.post('/', (request, response) => {
   if (!request.body.name) {
     response.status(400).send('No action name provided');
     return;
@@ -41,14 +41,14 @@ ActionsController.post('/', function (request, response) {
 /**
  * Handle getting a list of actions.
  */
-ActionsController.get('/', function(request, response) {
+ActionsController.get('/', (request, response) => {
   response.status(200).json(Actions.getAll());
 });
 
 /**
  * Handle getting a particular action.
  */
-ActionsController.get('/:actionId', function(request, response) {
+ActionsController.get('/:actionId', (request, response) => {
   var actionId = request.params.actionId;
   var action =  Actions.get(actionId);
   if (action) {
@@ -63,7 +63,7 @@ ActionsController.get('/:actionId', function(request, response) {
 /**
  * Handle cancelling an action.
  */
-ActionsController.delete('/:actionId', function(request, response) {
+ActionsController.delete('/:actionId', (request, response) => {
   var actionId = request.params.actionId;
   try {
     Actions.remove(actionId);
