@@ -26,7 +26,7 @@ const TEST_THING = {
   }
 };
 
-describe('actions/', function() {
+describe('actions/', () => {
   let jwt;
   beforeEach(async () => {
     jwt = await createUser(server, TEST_USER);
