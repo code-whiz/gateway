@@ -78,9 +78,7 @@ const Things = {
    * @return {Promise<Array>} which resolves with a list of all thing names.
    */
   getThingNames: function() {
-    return this.getThings().then(function(things) {
-      return Array.from(things.values()).map((t) => t.name);
-    });
+    return this.getThings().then(things => Array.from(things.values()).map((t) => t.name));
   },
 
   /**
@@ -91,7 +89,7 @@ const Things = {
    * @return {Promise} which resolves with a list of Thing Descriptions.
    */
   getThingDescriptions: function(reqHost, reqSecure) {
-    return this.getThings().then(function(things) {
+    return this.getThings().then(things => {
       const descriptions = [];
       for (const thing of things.values()) {
         descriptions.push(thing.getDescription(reqHost, reqSecure));
@@ -107,10 +105,10 @@ const Things = {
    * @return {Promise} A promise which resolves with a list of Things.
    */
   getListThings: function(hrefs) {
-    return this.getThings().then(function(things) {
+    return this.getThings().then(things => {
       const listThings = [];
       for (const href of hrefs) {
-        things.forEach(function(thing) {
+        things.forEach(thing => {
           if (thing.href === href) {
             listThings.push(thing);
           }
@@ -130,7 +128,7 @@ const Things = {
    * @return {Promise} which resolves with a list of Thing Descriptions.
    */
   getListThingDescriptions: function(hrefs, reqHost, reqSecure) {
-    return this.getListThings(hrefs).then(function(listThings) {
+    return this.getListThings(hrefs).then(listThings => {
       const descriptions = [];
       for (const thing of listThings) {
         descriptions.push(thing.getDescription(reqHost, reqSecure));
@@ -147,11 +145,11 @@ const Things = {
    */
   getNewThings: function() {
     // Get a map of things in the database
-    return this.getThings().then((function(storedThings) {
+    return this.getThings().then((storedThings => {
       // Get a list of things connected to adapters
       const connectedThings = AddonManager.getThings();
       const newThings = [];
-      connectedThings.forEach(function(connectedThing) {
+      connectedThings.forEach(connectedThing => {
         if (!storedThings.has(connectedThing.id)) {
           connectedThing.href =
            `${Constants.THINGS_PATH}/${connectedThing.id}`;
@@ -199,7 +197,7 @@ const Things = {
       return thing.updateFromDescription(newThing);
     }).catch(() => {
       // If we don't already know about this thing, notify each open websocket
-      this.websockets.forEach(function(socket) {
+      this.websockets.forEach(socket => {
         socket.send(JSON.stringify(newThing));
       });
     });
@@ -248,7 +246,7 @@ const Things = {
    * @return {Promise<Thing>} A Thing object.
    */
   getThing: function(id) {
-    return this.getThings().then(function(things) {
+    return this.getThings().then(things => {
       if (things.has(id)) {
         return things.get(id);
       } else {
@@ -266,7 +264,7 @@ const Things = {
   getThingByName: function(name) {
     name = name.toLowerCase();
 
-    return this.getThings().then(function(things) {
+    return this.getThings().then(things => {
       for (const thing of things.values()) {
         if (thing.name.toLowerCase() === name) {
           return thing;
@@ -322,7 +320,7 @@ const Things = {
    * @param {String} propertyName
    * @return {Promise<any>} resolves to value of property
    */
-  getThingProperty: async function(thingId, propertyName) {
+  getThingProperty: async(thingId, propertyName) => {
     try {
       return await AddonManager.getProperty(thingId, propertyName);
     } catch (error) {
@@ -342,7 +340,7 @@ const Things = {
    * @param {any} value
    * @return {Promise<any>} resolves to new value
    */
-  setThingProperty: async function(thingId, propertyName, value) {
+  setThingProperty: async(thingId, propertyName, value) => {
     let thing;
     try {
       thing = await Things.getThingDescription(thingId, 'localhost', true);
