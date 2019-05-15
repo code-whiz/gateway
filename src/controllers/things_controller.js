@@ -32,8 +32,8 @@ ThingsController.get('/', (request, response) => {
       response.status(400).send('Token must contain scope');
     } else {
       const scope = request.jwt.payload.scope;
-      if (!scope.includes(' ') && scope.indexOf('/') == 0 &&
-        scope.split('/').length == 2 &&
+      if (!scope.includes(' ') && scope.indexOf('/') === 0 &&
+        scope.split('/').length === 2 &&
         scope.split(':')[0] === Constants.THINGS_PATH) {
         Things.getThingDescriptions(request.get('Host'), request.secure)
           .then((things) => {
@@ -256,7 +256,7 @@ ThingsController.put(
       const updatedValue = await Things.setThingProperty(thingId, propertyName,
                                                          value);
       const result = {
-        [propertyName]: updatedValue,
+        propertyName: updatedValue,
       };
       response.status(200).json(result);
     } catch (e) {
@@ -407,7 +407,7 @@ ThingsController.ws('/:thingId/', (websocket, request) => {
     sendMessage(JSON.stringify({
       messageType: Constants.PROPERTY_STATUS,
       data: {
-        [property.name]: property.value,
+        property.name: property.value,
       },
     }));
   }
@@ -416,7 +416,7 @@ ThingsController.ws('/:thingId/', (websocket, request) => {
     sendMessage(JSON.stringify({
       messageType: Constants.ACTION_STATUS,
       data: {
-        [action.name]: action.getDescription(),
+        action.name: action.getDescription(),
       },
     }));
   }
@@ -428,7 +428,7 @@ ThingsController.ws('/:thingId/', (websocket, request) => {
     sendMessage(JSON.stringify({
       messageType: Constants.EVENT,
       data: {
-        [event.name]: event.getDescription(),
+        event.name: event.getDescription(),
       },
     }));
   }
