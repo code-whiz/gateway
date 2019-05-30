@@ -848,7 +848,7 @@ class ZigBeeAdapter extends Adapter {
       destination64: node.addr64,
       destination16: node.addr16,
       clusterId: zdo.CLUSTER_ID.SIMPLE_DESCRIPTOR_REQUEST,
-      endpoint: endpoint,
+      endpoint,
     });
     return [
       new Command(SEND_FRAME, nodeDescFrame),
@@ -896,6 +896,7 @@ class ZigBeeAdapter extends Adapter {
   // eslint-disable-next-line no-unused-vars
   cancelRemoveThing(node) {
     // Nothing to do. We've either sent the leave request or not.
+
   }
 
   managementLeave(node) {
