@@ -66,7 +66,7 @@ class Property extends EventEmitter {
   /**
    * @return {String} full property href
    */
-  async getHref() {
+  getHref() {
     let href = await Settings.get('RulesEngine.gateway') + this.href;
     return href;
   }
@@ -74,7 +74,7 @@ class Property extends EventEmitter {
   /**
    * @return {Promise<Object>} headers for JWT bearer auth
    */
-  async headerAuth() {
+  headerAuth() {
     const jwt = await Settings.get('RulesEngine.jwt');
     if (jwt) {
       return {
@@ -88,7 +88,7 @@ class Property extends EventEmitter {
   /**
    * @return {Promise} resolves to property's value
    */
-  async get() {
+  get() {
     winston.info('property get', {name: this.name});
     const res = await fetch(await this.getHref(), {
       headers: Object.assign({
@@ -97,7 +97,7 @@ class Property extends EventEmitter {
     });
     const data = await res.json();
 
-    winston.info('property got', {data: data});
+    winston.info('property got', {data});
     return data[this.name]
   }
 
@@ -105,10 +105,10 @@ class Property extends EventEmitter {
    * @param {any} value
    * @return {Promise} resolves if property is set to value
    */
-  async set(value) {
+  set(value) {
     let data = {};
     data[this.name] = value;
-    winston.info('property set', {data: data});
+    winston.info('property set', {data});
     return fetch(await this.getHref(), {
       method: 'PUT',
       headers: Object.assign({
@@ -120,7 +120,7 @@ class Property extends EventEmitter {
     });
   }
 
-  async start() {
+  start() {
     const thingHref = this.href.split('/properties')[0];
     const jwt = await Settings.get('RulesEngine.jwt');
     const gateway = await Settings.get('RulesEngine.gateway');
