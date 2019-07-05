@@ -34,7 +34,7 @@ class ZigBeeNode extends Device {
     this.neighbors = [];
     this.activeEndpoints = {};
 
-    this.isCoordinator = (id64 == adapter.serialNumber);
+    this.isCoordinator = (id64 === adapter.serialNumber);
 
     if (this.isCoordinator) {
       this.defaultName = deviceId + '-Dongle';
@@ -77,7 +77,7 @@ class ZigBeeNode extends Device {
     var attr = zclId.attr(property.clusterId, property.attr).value;
     if (frame.zcl && Array.isArray(frame.zcl.payload)) {
       for (var attrEntry of frame.zcl.payload) {
-        if (attrEntry.attrId == attr) {
+        if (attrEntry.attrId === attr) {
           return attrEntry;
         }
       }
@@ -95,9 +95,9 @@ class ZigBeeNode extends Device {
     var endpoint = parseInt(frame.sourceEndpoint, 16);
 
     for (var property of this.properties.values()) {
-      if (profileId == property.profileId &&
-          endpoint == property.endpoint &&
-          clusterId == property.clusterId) {
+      if (profileId === property.profileId &&
+          endpoint === property.endpoint &&
+          clusterId === property.clusterId) {
         if (this.frameHasAttr(frame, property)) {
           return property;
         }
@@ -106,7 +106,7 @@ class ZigBeeNode extends Device {
   }
 
   getValueFromAttrEntry(attrEntry) {
-    if (attrEntry.dataType == DATA_TYPE_BOOLEAN) {
+    if (attrEntry.dataType === DATA_TYPE_BOOLEAN) {
       return attrEntry.attrData !== 0;
     }
     return attrEntry.attrData;
@@ -136,7 +136,7 @@ class ZigBeeNode extends Device {
 
   handleZhaResponse(frame) {
     if (frame.zcl &&
-        (frame.zcl.cmdId == 'readRsp' || frame.zcl.cmdId == 'report')) {
+        (frame.zcl.cmdId === 'readRsp' || frame.zcl.cmdId === 'report')) {
       this.handleReadRsp(frame);
     }
   }
