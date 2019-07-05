@@ -29,7 +29,7 @@ class ZigBeeClassifier {
   findZhaEndpointWithInputClusterIdHex(node, clusterIdHex) {
     for (var endpointNum in node.activeEndpoints) {
       var endpoint = node.activeEndpoints[endpointNum];
-      if (endpoint.profileId == ZHA_PROFILE_ID_HEX) {
+      if (endpoint.profileId === ZHA_PROFILE_ID_HEX) {
         if (endpoint.inputClusters.includes(clusterIdHex)) {
           return endpointNum;
         }
