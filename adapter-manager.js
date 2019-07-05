@@ -68,11 +68,9 @@ class AdapterManager extends EventEmitter {
       var pairingTimeout = config.get('adapterManager.pairingTimeout');
       for (var adapterId in this.adapters) {
         var adapter = this.adapters[adapterId];
-        console.log('About to call startPairing on', adapter.name);
         adapter.startPairing(pairingTimeout);
       }
       this.pairingTimeout = setTimeout(() => {
-        console.log('Pairing timeout');
         this.emit('pairing-timeout');
         this.cancelAddNewThing();
       }, pairingTimeout * 1000);
@@ -316,13 +314,10 @@ class AdapterManager extends EventEmitter {
       var adapterConfig = adaptersConfig[adapterName];
 
       if (adapterConfig.enabled) {
-        console.log('Loading adapters for', adapterName,
-                    'from', adapterConfig.path);
         let adapterLoader = require(adapterConfig.path);
         adapterLoader(this);
       } else {
-        console.log('Not loading adapters for', adapterName,
-                    '- disabled');
+        
       }
     }
   }
@@ -370,7 +365,6 @@ class AdapterManager extends EventEmitter {
     }
     for (var adapterId in this.adapters) {
       var adapter = this.adapters[adapterId];
-      console.log('Unloading', adapter.name);
       adapter.unload();
     }
     this.adaptersLoaded = false;
