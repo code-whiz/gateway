@@ -214,22 +214,22 @@ class ZigBeeAdapter extends Adapter {
                                   {configuredPanId: this.operatingPanId64}));
       configCommands.push(this.AT(AT_CMD.CONFIGURED_64_BIT_PAN_ID));
     }
-    if (this.zigBeeStackProfile != 2) {
+    if (this.zigBeeStackProfile !== 2) {
       configCommands.push(this.AT(AT_CMD.ZIGBEE_STACK_PROFILE,
                                   {zigBeeStackProfile: 2}));
       configCommands.push(this.AT(AT_CMD.ZIGBEE_STACK_PROFILE));
     }
-    if (this.apiOptions != 1) {
+    if (this.apiOptions !== 1) {
       configCommands.push(this.AT(AT_CMD.API_OPTIONS,
                                   {apiOptions: 1}));
       configCommands.push(this.AT(AT_CMD.API_OPTIONS));
     }
-    if (this.encryptionEnabled != 1) {
+    if (this.encryptionEnabled !== 1) {
       configCommands.push(this.AT(AT_CMD.ENCRYPTION_ENABLED,
                                   {encryptionEnabled: 1}));
       configCommands.push(this.AT(AT_CMD.ENCRYPTION_ENABLED));
     }
-    if (this.encryptionOptions != 2) {
+    if (this.encryptionOptions !== 2) {
       configCommands.push(this.AT(AT_CMD.ENCRYPTION_OPTIONS,
                                   {encryptionOptions: 2}));
       configCommands.push(this.AT(AT_CMD.ENCRYPTION_OPTIONS));
@@ -728,7 +728,7 @@ class ZigBeeAdapter extends Adapter {
           new ZigBeeNode(this, neighbor.addr64, neighbor.addr16);
         neighborNode = this.nodes[neighbor.addr64];
       }
-      if (neighborNode.addr16 == 'fffe') {
+      if (neighborNode.addr16 === 'fffe') {
         neighborNode.addr16 = neighbor.addr16;
       }
     }
@@ -893,6 +893,7 @@ class ZigBeeAdapter extends Adapter {
   // eslint-disable-next-line no-unused-vars
   cancelRemoveThing(node) {
     // Nothing to do. We've either sent the leave request or not.
+
   }
 
   managementLeave(node) {
@@ -931,7 +932,7 @@ class ZigBeeAdapter extends Adapter {
       var scanNode = this.nodes[nodeAddr];
       for (var neighborIdx in scanNode.neighbors) {
         var neighbor = scanNode.neighbors[neighborIdx];
-        if (neighbor.addr64 == frame.remote64) {
+        if (neighbor.addr64 === frame.remote64) {
           scanNode.neighbors.splice(neighborIdx, 1);
           break;
         }
@@ -1021,7 +1022,7 @@ class ZigBeeAdapter extends Adapter {
       }
       var match = true;
       for (var propertyName in this.waitFrame) {
-        if (this.waitFrame[propertyName] != frame[propertyName]) {
+        if (this.waitFrame[propertyName] !== frame[propertyName]) {
           match = false;
           break;
         }
