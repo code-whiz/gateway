@@ -31,7 +31,7 @@ class ZWaveClassifier {
         for (var valueId in node.zwValues) {
             var value = node.zwValues[valueId];
 
-            if (value.class_id == COMMAND_CLASS_SWITCH_BINARY) {
+            if (value.class_id === COMMAND_CLASS_SWITCH_BINARY) {
                 // This looks like an on/off switch
                 this.initOnOffSwitch(node, valueId);
                 return;
