@@ -32,7 +32,7 @@ class Adapter {
   }
 
   dump() {
-    console.log('Adapter:', this.name, '- dump() not implemented');
+    
   }
 
   // eslint-disable-next-line
@@ -94,25 +94,23 @@ class Adapter {
 
   // eslint-disable-next-line
   startPairing(timeoutSeconds) {
-    console.log('Adapter:', this.name, 'id', this.id, 'pairing started');
+    
   }
 
   cancelPairing() {
-    console.log('Adapter:', this.name, 'id', this.id, 'pairing cancelled');
+    
   }
 
   removeThing(device) {
-    console.log('Adapter:', this.name, 'id', this.id,
-                'removeThing(', device.id, ') started');
+    
   }
 
   cancelRemoveThing(device) {
-    console.log('Adapter:', this.name, 'id', this.id,
-                'cancelRemoveThing(', device.id, ')');
+    
   }
 
   unload() {
-    console.log('Adapter:', this.name, 'unloaded');
+    
   }
 }
 
