@@ -339,7 +339,7 @@ class AddonManager extends EventEmitter {
     this.emit(Constants.THING_REMOVED, thing);
 
     var deferredRemove = this.deferredRemove;
-    if (deferredRemove && deferredRemove.adapter == device.adapter) {
+    if (deferredRemove && deferredRemove.adapter === device.adapter) {
       this.deferredRemove = null;
       deferredRemove.resolve(device.id);
     }
@@ -440,7 +440,7 @@ class AddonManager extends EventEmitter {
    * @param {String} packageName The package name of the add-on to load.
    * @returns A promise which is resolved when the add-on is loaded.
    */
-  async loadAddon(packageName) {
+  loadAddon(packageName) {
     const addonPath = path.join(__dirname,
                                 config.get('addonManager.path'),
                                 packageName);
@@ -475,7 +475,7 @@ class AddonManager extends EventEmitter {
     }
 
     // Verify that the name in the package matches the packageName
-    if (manifest.name != packageName) {
+    if (manifest.name !== packageName) {
       const err = `Name from package.json "${manifest.name}" doesn't ` +
                   `match the name from list.json "${packageName}"`;
       console.error(err);
@@ -815,7 +815,7 @@ class AddonManager extends EventEmitter {
    * @param {String} packagePath Path to the package tarball
    * @returns A promise that resolves when the package is installed.
    */
-  async installAddon(packageName, packagePath) {
+  installAddon(packageName, packagePath) {
     if (!this.addonsLoaded) {
       const err =
         'Cannot install add-on before other add-ons have been loaded.';
@@ -899,7 +899,7 @@ class AddonManager extends EventEmitter {
    * @param {Boolean} wait Whether or not to wait for unloading to finish
    * @returns A promise that resolves when the package is uninstalled.
    */
-  async uninstallAddon(packageName, wait) {
+  uninstallAddon(packageName, wait) {
     try {
       // Try to gracefully unload
       await this.unloadAddon(packageName);
