@@ -272,7 +272,7 @@ debugController.get('/removeThing/:thingId', (request, response) => {
   const thingId = request.params.thingId;
   addonManager.removeThing(thingId).then((thingIdRemoved) => {
     console.log('debugController: removed', thingIdRemoved);
-    if (thingId != thingIdRemoved) {
+    if (thingId !== thingIdRemoved) {
       console.log('debugController: Actually removed', thingIdRemoved,
                   'even though request was for:', thingId);
     }
