@@ -236,7 +236,7 @@ class Plugin {
 
       case Constants.ADAPTER_UNLOADED:
         this.adapters.delete(adapterId);
-        if (this.adapters.size == 0) {
+        if (this.adapters.size === 0) {
           // We've unloaded the last adapter for the plugin, now unload
           // the plugin.
 
@@ -335,7 +335,7 @@ class Plugin {
 
       default:
         console.error('Plugin: unrecognized msg:', msg);
-        break;
+        break;;
     }
   }
 
@@ -460,7 +460,7 @@ class Plugin {
 
     this.process.p.on('exit', (code) => {
       if (this.restart) {
-        if (code == Constants.DONT_RESTART_EXIT_CODE) {
+        if (code === Constants.DONT_RESTART_EXIT_CODE) {
           console.log('Plugin:', this.pluginId, 'died, code =', code,
                       'NOT restarting...');
           this.restart = false;
