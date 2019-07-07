@@ -19,22 +19,20 @@ class Deferred {
       this.rejectFunc = reject;
     });
     if (DEBUG) {
-      console.log('Deferred: Created deferred promise id:', this.id);
+      
     }
   }
 
   resolve(arg) {
     if (DEBUG) {
-      console.log('Deferred: Resolving deferred promise id:', this.id,
-                  'arg:', arg);
+      
     }
     this.resolveFunc(arg);
   }
 
   reject(arg) {
     if (DEBUG) {
-      console.log('Deferred: Rejecting deferred promise id:', this.id,
-                  'arg:', arg);
+      
     }
     this.rejectFunc(arg);
   }
