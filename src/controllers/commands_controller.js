@@ -67,7 +67,7 @@ CommandsController.jwt = '';
  *  and the python interface since the CommandsController
  *  will be posting to itself.
  */
-CommandsController.configure = function(gatewayHref, jwt) {
+CommandsController.configure = (gatewayHref, jwt) => {
   CommandsController.gatewayHref = gatewayHref;
   CommandsController.jwt = jwt;
 };
@@ -84,7 +84,7 @@ function toText(res) {
  * parser to determine intent.  Then executes the intent as an action on the
  * thing API.
  */
-CommandsController.post('/', function(request, response) {
+CommandsController.post('/', (request, response) => {
   if (!request.body || typeof request.body.text === 'undefined') {
     response.status(400).send(JSON.stringify(
       {message: 'Text element not defined'}));
@@ -97,7 +97,7 @@ CommandsController.post('/', function(request, response) {
     CommandsController.jwt}`;
 
   fetch(thingsUrl, thingsOptions).then(toText)
-    .then(function(thingBody) {
+    .then(thingBody => {
       const jsonBody = JSON.parse(thingBody);
       IntentParser.train(jsonBody).then(() => {
         IntentParser.query(request.body.text).then((payload) => {
@@ -151,28 +151,29 @@ CommandsController.post('/', function(request, response) {
             // as the execution can take some time (e.g. blinds)
             response.status(201).json({message: 'Command Created'});
             fetch(iotUrl, iotOptions)
-              .then(function() {
+              .then(() => {
                 // In the future we may want to use WS to give a status of
                 // the disposition of the command execution..
+
               })
-              .catch(function(err) {
+              .catch(err => {
                 // Future, give status via WS.
                 console.log(`catch inside PUT:${err}`);
               });
           } else {
             response.status(404).json({message: 'Thing not found'});
           }
-        }).catch(function(error) {
+        }).catch(error => {
           console.log('Error parsing intent:', error);
           response.status(404).json({message:
             'Internal error determining intent'});
         });
-      }).catch(function(error) {
+      }).catch(error => {
         console.log('Error parsing intent:', error);
         response.status(404).json({message:
           'Internal error determining intent'});
       });
-    }).catch(function(err) {
+    }).catch(err => {
       console.log(`error catch:${err}`);
     });
 });
