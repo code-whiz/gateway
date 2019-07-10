@@ -22,7 +22,7 @@ const TunnelService = require('../ssltunnel');
 
 var SettingsController = express.Router();
 
-SettingsController.post('/subscribe', (request, response) => {
+SettingsController.post('/subscribe', function (request, response) {
 
     let email = request.body.email;
     let subdomain = request.body.subdomain;
@@ -51,25 +51,31 @@ SettingsController.post('/subscribe', (request, response) => {
 
     let token;
     // promise to be resolved when LE has the dns challenge ready for us
-    leChallengeDns.leDnsResponse = (challenge, keyAuthorization,
-                                            keyAuthDigest) => new Promise((resolve) => {
+    leChallengeDns.leDnsResponse = function(challenge, keyAuthorization,
+                                            keyAuthDigest){
+        return new Promise((resolve) => {
             // ok now that we have a challenge, we call our gateway to setup
             // the TXT record
             fetch('http://' + config.get('ssltunnel.registration_endpoint') +
                 '/dnsconfig?token=' + token + '&challenge=' + keyAuthDigest)
-                .catch(e => {
+                .catch(function(e) {
                     returnError(e);
                 })
-                .then(res => res.text())
-                .then(() => {
+                .then(function(res) {
+                    return res.text();
+                })
+                .then(function() {
                     resolve('Success!');
                 });
-        })
+        });
+    }
 
     fetch('http://' + config.get('ssltunnel.registration_endpoint')
         + '/subscribe?name=' + subdomain)
-        .then(res => res.text())
-        .then(body => {
+        .then(function (res) {
+            return res.text();
+        })
+        .then(function (body) {
             const jsonToken = JSON.parse(body);
             if (jsonToken.error) {
                 returnError(jsonToken.error);
@@ -84,7 +90,7 @@ SettingsController.post('/subscribe', (request, response) => {
                     agreeTos: true,
                     rsaKeySize: 2048,
                     challengeType: 'dns-01'
-                }).then(results => {
+                }).then(function (results) {
                     console.log('success', results);
                     // ok. we got the certificates. let's save them
                     fs.writeFileSync('certificate.pem', results.cert);
@@ -93,24 +99,24 @@ SettingsController.post('/subscribe', (request, response) => {
                         config.get('ssltunnel.domain');
                     TunnelService.start(response, endpoint_url);
                     TunnelService.switchToHttps();
-                }, err => {
+                }, function (err) {
                     returnError(err.detail ||
                         err.message.substring(0,err.message.indexOf('\n')));
                 });
             }
         })
-        .catch(e => {
+        .catch(function(e) {
             returnError(e);
         });
 });
 
-SettingsController.post('/skiptunnel', (request, response) => {
+SettingsController.post('/skiptunnel', function (request, response) {
     fs.writeFileSync('notunnel');
     response.status(200).end();
 });
 
 
-SettingsController.get('/tunnelinfo', (request, response) => {
+SettingsController.get('/tunnelinfo', function (request, response) {
     if (fs.existsSync('tunneltoken')){
         let tunneltoken = JSON.parse(fs.readFileSync('tunneltoken'));
         let endpoint = 'https://' + tunneltoken.name + '.' +
