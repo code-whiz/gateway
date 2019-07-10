@@ -19,10 +19,10 @@ var NewThingsController = express.Router();
 /**
  * Handle GET requests to /new_things
  */
-NewThingsController.get('/', function (request, response) {
-  Things.getNewThings().then(function(newThings) {
+NewThingsController.get('/', (request, response) => {
+  Things.getNewThings().then(newThings => {
     response.json(newThings);
-  }).catch(function(error) {
+  }).catch(error => {
     console.error('Error getting a list of new things from adapters ' + error);
     response.status(500).send(error);
   });
@@ -31,17 +31,17 @@ NewThingsController.get('/', function (request, response) {
 /**
  * Handle a WebSocket request on /new_things
  */
-NewThingsController.ws('/', function(websocket) {
+NewThingsController.ws('/', websocket => {
   console.log('Opened a new things socket');
   // Register the WebSocket with the Things model so new devices can be pushed
   // to the client as they are added.
   Things.registerWebsocket(websocket);
   // Send a list of things the adapter manager already knows about
   Things.getNewThings().then(function(newThings) {
-    newThings.forEach(function(newThing) {
+    newThings.forEach(newThing => {
       websocket.send(JSON.stringify(newThing));
     }, this);
-  }).catch(function(error) {
+  }).catch(error => {
     console.error('Error getting a list of new things from adapters ' + error);
   });
 });
