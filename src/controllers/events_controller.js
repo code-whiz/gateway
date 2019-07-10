@@ -16,7 +16,7 @@ const EventsController = express.Router({mergeParams: true});
 /**
  * Handle getting a list of events.
  */
-EventsController.get('/', function(request, response) {
+EventsController.get('/', (request, response) => {
   if (request.params.thingId) {
     response.status(200).json(Events.getByThing(request.params.thingId));
   } else {
