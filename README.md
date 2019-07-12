@@ -12,6 +12,7 @@ If you have a Rasberry Pi, the easiest way to use the gateway is to [download an
 
 ## Prerequisites for Building
 
+
 ### Install OS
 
 (If you're just installing on your PC, you can skip this step).
