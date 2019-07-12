@@ -204,7 +204,7 @@ CommandsController.post('/', async (request, response) => {
   // as the execution can take some time (e.g. blinds)
   response.status(201).json({
     message: 'Command Created',
-    payload: payload,
+    payload,
   });
 });
 
