@@ -57,8 +57,7 @@ function getConnectedNetwork() {
  * pass a number. If all attempts fail, the promise is resolved to
  * an empty array.
  */
-function scan(numAttempts) {
-  numAttempts = numAttempts || 1;
+function scan(numAttempts = 1) {
   return new Promise(function(resolve) {
     let attempts = 0;
 
