@@ -176,11 +176,11 @@ exports.ZdoApi = ZdoApi;
 //
 //---------------------------------------------------------------------------
 
-zdoBuilder[zci.ACTIVE_ENDPOINTS_REQUEST] = function(frame, builder) {
+zdoBuilder[zci.ACTIVE_ENDPOINTS_REQUEST] = (frame, builder) => {
   builder.appendUInt16LE(parseInt(frame.destination16, 16));
 };
 
-zdoBuilder[zci.BIND_REQUEST] = function(frame, builder) {
+zdoBuilder[zci.BIND_REQUEST] = (frame, builder) => {
   builder.appendString(frame.bindSrcAddr64.swapHex(), 'hex');
   builder.appendUInt8(frame.bindSrcEndpoint);
   if (typeof(frame.bindClusterId) === 'number') {
@@ -205,29 +205,29 @@ zdoBuilder[zci.BIND_REQUEST] = function(frame, builder) {
   }
 };
 
-zdoBuilder[zci.MANAGEMENT_LEAVE_REQUEST] = function(frame, builder) {
+zdoBuilder[zci.MANAGEMENT_LEAVE_REQUEST] = (frame, builder) => {
   builder.appendString(frame.destination64.swapHex(), 'hex');
   builder.appendUInt8(frame.leaveOptions);
 };
 
-zdoBuilder[zci.MANAGEMENT_LQI_REQUEST] = function(frame, builder) {
+zdoBuilder[zci.MANAGEMENT_LQI_REQUEST] = (frame, builder) => {
   builder.appendUInt8(frame.startIndex);
 };
 
-zdoBuilder[zci.MANAGEMENT_PERMIT_JOIN_REQUEST] = function(frame, builder) {
+zdoBuilder[zci.MANAGEMENT_PERMIT_JOIN_REQUEST] = (frame, builder) => {
   builder.appendUInt8(frame.permitDuration);
   builder.appendUInt8(frame.trustCenterSignificance);
 };
 
-zdoBuilder[zci.MANAGEMENT_RTG_REQUEST] = function(frame, builder) {
+zdoBuilder[zci.MANAGEMENT_RTG_REQUEST] = (frame, builder) => {
   builder.appendUInt8(frame.startIndex);
 };
 
-zdoBuilder[zci.NODE_DESCRIPTOR_REQUEST] = function(frame, builder) {
+zdoBuilder[zci.NODE_DESCRIPTOR_REQUEST] = (frame, builder) => {
   builder.appendUInt16LE(parseInt(frame.destination16, 16));
 };
 
-zdoBuilder[zci.SIMPLE_DESCRIPTOR_REQUEST] = function(frame, builder) {
+zdoBuilder[zci.SIMPLE_DESCRIPTOR_REQUEST] = (frame, builder) => {
   builder.appendUInt16LE(parseInt(frame.destination16, 16));
   builder.appendUInt8(frame.endpoint);
 };
@@ -238,7 +238,7 @@ zdoBuilder[zci.SIMPLE_DESCRIPTOR_REQUEST] = function(frame, builder) {
 //
 //---------------------------------------------------------------------------
 
-zdoParser[zci.ACTIVE_ENDPOINTS_RESPONSE] = function(frame, reader) {
+zdoParser[zci.ACTIVE_ENDPOINTS_RESPONSE] = (frame, reader) => {
   frame.status = reader.nextUInt8();
   frame.zdoAddr16 = reader.nextString(2, 'hex').swapHex();
   if (reader.offset < reader.buf.length) {
@@ -250,21 +250,21 @@ zdoParser[zci.ACTIVE_ENDPOINTS_RESPONSE] = function(frame, reader) {
   }
 };
 
-zdoParser[zci.BIND_RESPONSE] = function(frame, reader) {
+zdoParser[zci.BIND_RESPONSE] = (frame, reader) => {
   frame.status = reader.nextUInt8();
 };
 
-zdoParser[zci.END_DEVICE_ANNOUNCEMENT] = function(frame, reader) {
+zdoParser[zci.END_DEVICE_ANNOUNCEMENT] = (frame, reader) => {
   frame.zdoAddr16 = reader.nextString(2, 'hex').swapHex();
   frame.zdoAddr64 = reader.nextString(8, 'hex').swapHex();
   frame.capability = reader.nextUInt8();
 };
 
-zdoParser[zci.MANAGEMENT_LEAVE_RESPONSE] = function(frame, reader) {
+zdoParser[zci.MANAGEMENT_LEAVE_RESPONSE] = (frame, reader) => {
   frame.status = reader.nextUInt8();
 };
 
-zdoParser[zci.MANAGEMENT_LQI_RESPONSE] = function(frame, reader) {
+zdoParser[zci.MANAGEMENT_LQI_RESPONSE] = (frame, reader) => {
   frame.status = reader.nextUInt8();
   frame.numEntries = reader.nextUInt8();
   frame.startIndex = reader.nextUInt8();
@@ -279,18 +279,18 @@ zdoParser[zci.MANAGEMENT_LQI_RESPONSE] = function(frame, reader) {
     neighbor.addr16 = reader.nextString(2, 'hex').swapHex();
 
     var byte1 = reader.nextUInt8();
-    neighbor.deviceType = byte1 & 0x03;
-    neighbor.rxOnWhenIdle = (byte1 >> 2) & 0x03;
-    neighbor.relationship = (byte1 >> 4) & 0x07;
+    neighbor.deviceType = byte1 & 3;
+    neighbor.rxOnWhenIdle = (byte1 >> 2) & 3;
+    neighbor.relationship = (byte1 >> 4) & 7;
 
     var byte2 = reader.nextUInt8();
-    neighbor.permitJoining = byte2 & 0x03;
+    neighbor.permitJoining = byte2 & 3;
     neighbor.depth = reader.nextUInt8();
     neighbor.lqi = reader.nextUInt8();
   }
 };
 
-zdoParser[zci.MANAGEMENT_NETWORK_UPDATE_NOTIFY] = function(frame, reader) {
+zdoParser[zci.MANAGEMENT_NETWORK_UPDATE_NOTIFY] = (frame, reader) => {
   frame.status = reader.nextUInt8();
   frame.scannedChannels = reader.nextString(4, 'hex').swapHex();
   frame.totalTransmissions = reader.nextUInt16LE();
@@ -302,11 +302,11 @@ zdoParser[zci.MANAGEMENT_NETWORK_UPDATE_NOTIFY] = function(frame, reader) {
   }
 };
 
-zdoParser[zci.MANAGEMENT_PERMIT_JOIN_RESPONSE] = function(frame, reader) {
+zdoParser[zci.MANAGEMENT_PERMIT_JOIN_RESPONSE] = (frame, reader) => {
   frame.status = reader.nextUInt8();
 };
 
-zdoParser[zci.MANAGEMENT_RTG_RESPONSE] = function(frame, reader) {
+zdoParser[zci.MANAGEMENT_RTG_RESPONSE] = (frame, reader) => {
   frame.status = reader.nextUInt8();
   frame.numEntries = reader.nextUInt8();
   frame.startIndex = reader.nextUInt8();
@@ -318,7 +318,7 @@ zdoParser[zci.MANAGEMENT_RTG_RESPONSE] = function(frame, reader) {
 
     routing.addr16 = reader.nextString(2, 'hex').swapHex();
     var byte1 = reader.nextUInt8();
-    routing.status = byte1 & 0x07;
+    routing.status = byte1 & 7;
     routing.memoryConstrained = (byte1 >> 3) & 1;
     routing.manyToOne = (byte1 >> 4) & 1;
     routing.routeRecordRequired = (byte1 >> 5) & 1;
@@ -326,7 +326,7 @@ zdoParser[zci.MANAGEMENT_RTG_RESPONSE] = function(frame, reader) {
   }
 };
 
-zdoParser[zci.MATCH_DESCRIPTOR_REQUEST] = function(frame, reader) {
+zdoParser[zci.MATCH_DESCRIPTOR_REQUEST] = (frame, reader) => {
   frame.zdoAddr16 = reader.nextString(2, 'hex').swapHex();
   frame.profileId = reader.nextString(2, 'hex').swapHex();
 
@@ -343,17 +343,17 @@ zdoParser[zci.MATCH_DESCRIPTOR_REQUEST] = function(frame, reader) {
   }
 };
 
-zdoParser[zci.NODE_DESCRIPTOR_RESPONSE] = function(frame, reader) {
+zdoParser[zci.NODE_DESCRIPTOR_RESPONSE] = (frame, reader) => {
   frame.status = reader.nextUInt8();
   frame.zdoAddr16 = reader.nextString(2, 'hex').swapHex();
 
   var byte1 = reader.nextUInt8();
-  frame.logicalType = byte1 & 0x03;
-  frame.complexDescriptorAvailable = (byte1 >> 3) & 0x01;
-  frame.userDescriptorAvailable = (byte1 >> 4) & 0x01;
+  frame.logicalType = byte1 & 3;
+  frame.complexDescriptorAvailable = (byte1 >> 3) & 1;
+  frame.userDescriptorAvailable = (byte1 >> 4) & 1;
 
   var byte2 = reader.nextUInt8();
-  frame.frequencyBand = (byte2 >> 3) & 0x1f;
+  frame.frequencyBand = (byte2 >> 3) & 31;
 
   frame.macCapabilityFlags = reader.nextUInt8();
   if (reader.offset < reader.buf.length) {
@@ -366,7 +366,7 @@ zdoParser[zci.NODE_DESCRIPTOR_RESPONSE] = function(frame, reader) {
   }
 };
 
-zdoParser[zci.SIMPLE_DESCRIPTOR_RESPONSE] = function(frame, reader) {
+zdoParser[zci.SIMPLE_DESCRIPTOR_RESPONSE] = (frame, reader) => {
   frame.status = reader.nextUInt8();
   frame.zdoAddr16 = reader.nextString(2, 'hex').swapHex();
   if (reader.offset >= reader.buf.length) {
@@ -383,7 +383,7 @@ zdoParser[zci.SIMPLE_DESCRIPTOR_RESPONSE] = function(frame, reader) {
   frame.appDeviceId = reader.nextString(2, 'hex').swapHex();
 
   var byte1 = reader.nextUInt8();
-  frame.appDeviceVersion = byte1 & 0x0f;
+  frame.appDeviceVersion = byte1 & 15;
 
   frame.inputClusterCount = reader.nextUInt8();
   frame.inputClusters = [];
