@@ -390,7 +390,7 @@ class AddonManager extends EventEmitter {
     this.emit(Constants.THING_REMOVED, thing);
 
     const deferredRemove = this.deferredRemove;
-    if (deferredRemove && deferredRemove.adapter == device.adapter) {
+    if (deferredRemove && deferredRemove.adapter === device.adapter) {
       this.deferredRemove = null;
       deferredRemove.resolve(device.id);
     }
@@ -469,7 +469,7 @@ class AddonManager extends EventEmitter {
    * @param {string} packageName The package name of the add-on
    * @returns {boolean} Boolean indicating enabled status.
    */
-  async addonEnabled(packageName) {
+  addonEnabled(packageName) {
     const key = `addons.${packageName}`;
     try {
       const savedSettings = await Settings.get(key);
@@ -491,7 +491,7 @@ class AddonManager extends EventEmitter {
    * @param {String} packageName The package name of the add-on to load.
    * @returns A promise which is resolved when the add-on is loaded.
    */
-  async loadAddon(packageName) {
+  loadAddon(packageName) {
     const addonPath = path.join(UserProfile.addonsDir, packageName);
 
     // Skip if there's no package.json file.
@@ -524,7 +524,7 @@ class AddonManager extends EventEmitter {
     }
 
     // Verify that the name in the package matches the packageName
-    if (manifest.name != packageName) {
+    if (manifest.name !== packageName) {
       const err = `Name from package.json "${manifest.name}" doesn't ` +
                   `match the name from list.json "${packageName}"`;
       console.error(err);
@@ -895,7 +895,7 @@ class AddonManager extends EventEmitter {
    * @param {Boolean} enable Whether or not to enable the add-on after install
    * @returns A Promise that resolves when the add-on is installed.
    */
-  async installAddonFromUrl(name, url, checksum, enable) {
+  installAddonFromUrl(name, url, checksum, enable) {
     const tempPath = fs.mkdtempSync(`${os.tmpdir()}${path.sep}`);
     const destPath = path.join(tempPath, `${name}.tar.gz`);
 
@@ -959,7 +959,7 @@ class AddonManager extends EventEmitter {
    * @param {Boolean} enable Whether or not to enable the add-on after install
    * @returns A promise that resolves when the package is installed.
    */
-  async installAddon(packageName, packagePath, enable) {
+  installAddon(packageName, packagePath, enable) {
     if (!this.addonsLoaded) {
       const err =
         'Cannot install add-on before other add-ons have been loaded.';
@@ -1049,7 +1049,7 @@ class AddonManager extends EventEmitter {
    * @param {Boolean} disable Whether or not to disable the add-on
    * @returns A promise that resolves when the package is uninstalled.
    */
-  async uninstallAddon(packageName, wait, disable) {
+  uninstallAddon(packageName, wait, disable) {
     try {
       // Try to gracefully unload
       await this.unloadAddon(packageName, wait);
@@ -1122,7 +1122,7 @@ class AddonManager extends EventEmitter {
    *
    * @returns A promise which is resolved when updating is complete.
    */
-  async updateAddons() {
+  updateAddons() {
     const url = config.get('addonManager.listUrl');
     const api = config.get('addonManager.api');
     const architecture = Platform.getArchitecture();
