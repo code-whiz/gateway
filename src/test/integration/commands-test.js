@@ -56,7 +56,7 @@ const TEST_THING = {
   },
 };
 
-describe('command/', function() {
+describe('command/', () => {
   let jwt;
   beforeEach(async () => {
     jwt = await createUser(server, TEST_USER);
