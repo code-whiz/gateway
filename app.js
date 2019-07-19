@@ -1,4 +1,4 @@
-///usr/bin/env node
+#!/usr/bin/env node
 /*
  * Things Gateway App.
  *
@@ -59,7 +59,7 @@ function startHttpsService() {
     }
 
     // Start the HTTPS server
-    server.listen(port, () => {
+    server.listen(port, function() {
       adapterManager.loadAdapters();
       console.log('Listening on port', server.address().port);
     });
@@ -146,7 +146,7 @@ if (config.get('cli')) {
   });
 
   // Do graceful shutdown when Control-C is pressed.
-  process.on('SIGINT', () => {
+  process.on('SIGINT', function() {
     console.log('Control-C: disconnecting adapters...');
     adapterManager.unloadAdapters();
     TunnelService.stop();
@@ -156,14 +156,14 @@ if (config.get('cli')) {
 
 if (!server.listening) {
   // Start the HTTPS server
-  server.listen(port, () => {
+  server.listen(port, function() {
     adapterManager.loadAdapters();
     console.log('Listening on port', server.address().port);
   });
 }
 
 // function to stop running server and start https
-TunnelService.switchToHttps = () => {
+TunnelService.switchToHttps = function(){
   server.close();
   startHttpsService();
 };
