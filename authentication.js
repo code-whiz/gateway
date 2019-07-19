@@ -33,14 +33,16 @@ var Authentication = {
    * @param {String} password
    * @return {Promise<String>} hashed password
    */
-  hashPassword: password => new Promise((resolve, reject) => {
-      bcrypt.hash(password, null, null, (err, hash) => {
+  hashPassword: function(password) {
+    return new Promise((resolve, reject) => {
+      bcrypt.hash(password, null, null, function(err, hash) {
         if (err) {
           reject(err);
         } else {
           resolve(hash);
         }
       });
-    })
+    });
+  }
 };
 module.exports = Authentication;
