@@ -20,7 +20,7 @@ var RootController = express.Router();
  * Get the home page.
  */
 RootController.get('/', TunnelSetup.isTunnelSet,
-  function(request, response) {
+  (request, response) => {
     response.sendFile('index.html',
         { root: path.join(__dirname, '../static/') });
   }
