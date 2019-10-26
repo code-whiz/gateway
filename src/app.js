@@ -89,8 +89,8 @@ function startHttpsGateway() {
   httpsServer.on('request', httpsApp);
 
   // Start the HTTPS server
-  httpsServer.listen(port, function() {
-    migration.then(function() {
+  httpsServer.listen(port, () => {
+    migration.then(() => {
       addonManager.loadAddons();
     });
     rulesEngineConfigure(httpsServer);
@@ -100,7 +100,7 @@ function startHttpsGateway() {
   // Redirect HTTP to HTTPS
   httpServer.on('request', createRedirectApp(httpsServer.address().port));
   const httpPort = config.get('ports.http');
-  httpServer.listen(httpPort, function() {
+  httpServer.listen(httpPort, () => {
     console.log('Redirector listening on port', httpServer.address().port);
   });
 }
@@ -114,8 +114,8 @@ function startHttpGateway() {
     port = options.port;
   }
 
-  httpServer.listen(port, function() {
-    migration.then(function() {
+  httpServer.listen(port, () => {
+    migration.then(() => {
       addonManager.loadAddons();
     });
     rulesEngineConfigure(httpServer);
@@ -241,7 +241,7 @@ function createRedirectApp(port) {
   // Allow LE challenges, used when renewing domain.
   app.use(
     /^\/\.well-known\/acme-challenge\/.*/,
-    function(request, response, next) {
+    (request, response, next) => {
       if (request.method !== 'GET') {
         response.sendStatus(403);
         return;
@@ -257,7 +257,7 @@ function createRedirectApp(port) {
     });
 
   // Redirect based on https://https.cio.gov/apis/
-  app.use(function(request, response) {
+  app.use((request, response) => {
     if (request.method !== 'GET') {
       response.sendStatus(403);
       return;
@@ -288,7 +288,7 @@ if (options['check-wifi']) {
 
 wifiPromise.then((connected) => {
   if (!connected) {
-    wifiSetupApp.onConnection = function() {
+    wifiSetupApp.onConnection = () => {
       stopWiFiSetup();
       startGateway();
     };
@@ -301,12 +301,12 @@ wifiPromise.then((connected) => {
 function startGateway() {
   // if we have the certificates installed, we start https
   if (TunnelService.hasCertificates()) {
-    serverStartup = TunnelService.userSkipped().then(function(res) {
+    serverStartup = TunnelService.userSkipped().then(res => {
       if (res) {
         startHttpGateway();
       } else {
         startHttpsGateway();
-        TunnelService.hasTunnelToken().then(function(result) {
+        TunnelService.hasTunnelToken().then(result => {
           if (result) {
             TunnelService.start();
           }
@@ -327,7 +327,7 @@ if (config.get('cli')) {
   });
 
   // Do graceful shutdown when Control-C is pressed.
-  process.on('SIGINT', function() {
+  process.on('SIGINT', () => {
     console.log('Control-C: unloading add-ons...');
     addonManager.unloadAddons();
     mDNSserver.server.cleanup();
@@ -337,7 +337,7 @@ if (config.get('cli')) {
 }
 
 // function to stop running server and start https
-TunnelService.switchToHttps = function() {
+TunnelService.switchToHttps = () => {
   stopHttpGateway();
   startHttpsGateway();
 };
