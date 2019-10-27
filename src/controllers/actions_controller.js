@@ -53,7 +53,7 @@ ActionsController.post('/', async (request, response) => {
     }
     await Actions.add(action);
 
-    response.status(201).json({[actionName]: action.getDescription()});
+    response.status(201).json({actionName: action.getDescription()});
   } catch (e) {
     console.error('Creating action', actionName, 'failed');
     console.error(e);
@@ -64,7 +64,7 @@ ActionsController.post('/', async (request, response) => {
 /**
  * Handle getting a list of actions.
  */
-ActionsController.get('/', function(request, response) {
+ActionsController.get('/', (request, response) => {
   if (request.params.thingId) {
     response.status(200).json(Actions.getByThing(request.params.thingId));
   } else {
@@ -75,7 +75,7 @@ ActionsController.get('/', function(request, response) {
 /**
  * Handle getting a list of actions.
  */
-ActionsController.get('/:actionName', function(request, response) {
+ActionsController.get('/:actionName', (request, response) => {
   const actionName = request.params.actionName;
   if (request.params.thingId) {
     response.status(200).json(Actions.getByThing(request.params.thingId,
@@ -130,7 +130,7 @@ ActionsController.post('/:actionName', async (request, response) => {
     }
     await Actions.add(action);
 
-    response.status(201).json({[actionName]: action.getDescription()});
+    response.status(201).json({actionName: action.getDescription()});
   } catch (e) {
     console.error('Creating action', actionName, 'failed');
     console.error(e);
@@ -141,11 +141,11 @@ ActionsController.post('/:actionName', async (request, response) => {
 /**
  * Handle getting a particular action.
  */
-ActionsController.get('/:actionName/:actionId', function(request, response) {
+ActionsController.get('/:actionName/:actionId', (request, response) => {
   const actionId = request.params.actionId;
   const action = Actions.get(actionId);
   if (action) {
-    response.status(200).json({[action.name]: action.getDescription()});
+    response.status(200).json({action.name: action.getDescription()});
   } else {
     const error = `Action "${actionId}" not found`;
     console.error(error);
