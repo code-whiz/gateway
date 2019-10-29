@@ -39,6 +39,7 @@ class GpioProperty extends Property {
           reject(err);
         } else {
           this.setCachedValue(value);
+          console.log('GPIO:', this.name, 'set:', this.name, 'to:', this.value);
           resolve(this.value);
           this.device.notifyPropertyChanged(this);
         }
@@ -81,6 +82,8 @@ class GpioDevice extends Device {
     pinConfig.pin = pin;
     this.pinConfig = pinConfig;
     this.name = pinConfig.name;
+
+    console.log('GPIO:', this.pinConfig);
 
     if (pinConfig.direction === 'out') {
       this.initOnOffSwitch();
