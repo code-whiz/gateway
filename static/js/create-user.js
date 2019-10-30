@@ -11,7 +11,7 @@
 
 const API = require('./api');
 
-(function() {
+(() => {
   const form = document.getElementById('create-user-form');
   const email = document.getElementById('email');
   const password = document.getElementById('password');
