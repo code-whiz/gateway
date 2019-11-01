@@ -38,7 +38,7 @@ function StringField(schema,
   return this;
 }
 
-StringField.prototype.toFormData = function(value) {
+StringField.prototype.toFormData = value => {
   // eslint-disable-next-line no-undefined
   return value === '' ? undefined : value;
 };
