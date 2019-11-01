@@ -15,9 +15,7 @@ const sleep = require('./sleep');
 const preliminaryScanResults = [];
 
 // Build templates
-Handlebars.registerHelper('escapeQuotes', function(str) {
-  return new Handlebars.SafeString(str.replace(/'/, '\\\''));
-});
+Handlebars.registerHelper('escapeQuotes', str => new Handlebars.SafeString(str.replace(/'/, '\\\'')));
 
 function getTemplate(name) {
   const filename = path.join(Constants.VIEWS_PATH, name);
@@ -254,7 +252,7 @@ function getHotspotSsid() {
  *                              ]
  */
 function scan(numAttempts = 1) {
-  return new Promise(function(resolve) {
+  return new Promise(resolve => {
     let attempts = 0;
 
     function tryScan() {
@@ -453,7 +451,7 @@ function checkConnection() {
  *                    promise is rejected.
  */
 function waitForWiFi(maxAttempts, interval) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     let attempts = 0;
 
     // first, see if any networks are already configured
