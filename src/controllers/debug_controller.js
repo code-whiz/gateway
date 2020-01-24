@@ -89,8 +89,10 @@ debugController.get('/deviceIds', (request, response) => {
   const devices = addonManager.getDevices();
   const deviceList = [];
   for (const deviceId in devices) {
-    const device = addonManager.devices[deviceId];
-    deviceList.push(device.id);
+    if (devices.hasOwnProperty(deviceId)) {
+      const device = addonManager.devices[deviceId];
+      deviceList.push(device.id);
+    }
   }
   response.status(200).json(deviceList);
 });
@@ -102,8 +104,10 @@ debugController.get('/devices', (request, response) => {
   const devices = addonManager.getDevices();
   const deviceList = [];
   for (const deviceId in devices) {
-    const device = addonManager.devices[deviceId];
-    deviceList.push(device.asDict());
+    if (devices.hasOwnProperty(deviceId)) {
+      const device = addonManager.devices[deviceId];
+      deviceList.push(device.asDict());
+    }
   }
   response.status(200).json(deviceList);
 });
