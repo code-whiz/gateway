@@ -354,7 +354,7 @@ const Database = {
    * @param {String} key
    * @return {Promise}
    */
-  deleteSetting: async function(key) {
+  deleteSetting: function(key) {
     this.run('DELETE FROM settings WHERE key = ?', [key]);
   },
 
@@ -363,16 +363,16 @@ const Database = {
    *
    * @return {Promise<Array<Setting>>} resolves with a list of setting objects
    */
-  getAddonSettings: async function() {
+  getAddonSettings: function() {
     return new Promise((resolve, reject) => {
       this.db.all('SELECT * FROM settings WHERE key LIKE "addons.%"',
-                  (err, rows) => {
-                    if (err) {
-                      reject(err);
-                    } else {
-                      resolve(rows);
-                    }
-                  });
+      (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
     });
   },
 
@@ -395,11 +395,11 @@ const Database = {
    * @param {User} user
    * @return Promise that resolves when operation is complete.
    */
-  editUser: async function(user) {
+  editUser: function(user) {
     assert(typeof user.id === 'number');
     return this.run(
-      'UPDATE users SET email=?, password=?, name=? WHERE id=?',
-      [user.email, user.password, user.name, user.id]
+    'UPDATE users SET email=?, password=?, name=? WHERE id=?',
+    [user.email, user.password, user.name, user.id]
     );
   },
 
@@ -564,7 +564,7 @@ const Database = {
   /**
    * ONLY for tests (clears all tables).
    */
-  deleteEverything: async function() {
+  deleteEverything: function() {
     return Promise.all(TABLES.map((t) => {
       return this.run(`DELETE FROM ${t}`);
     }));
