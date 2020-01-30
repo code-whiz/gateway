@@ -23,38 +23,38 @@ const LogsController = express.Router();
 /**
  * Generate an index of log files.
  */
-LogsController.get('/', async (request, response) => {
+LogsController.get('/', (request, response) => {
   const jwt = jwtMiddleware.extractJWTHeader(request) ||
-    jwtMiddleware.extractJWTQS(request);
+  jwtMiddleware.extractJWTQS(request);
   const files = fs.readdirSync(UserProfile.logDir)
     .filter((f) => !f.startsWith('.'));
   files.sort();
 
   let content =
-    '<!DOCTYPE html>' +
-    '<html lang="en">' +
-    '<head>' +
-    '<meta charset="utf-8">' +
-    '<title>Things Gateway - Logs</title>' +
-    '</head>' +
-    '<body>' +
-    '<ul>';
+  '<!DOCTYPE html>' +
+  '<html lang="en">' +
+  '<head>' +
+  '<meta charset="utf-8">' +
+  '<title>Things Gateway - Logs</title>' +
+  '</head>' +
+  '<body>' +
+  '<ul>';
 
   for (const name of files) {
     if (fs.lstatSync(path.join(UserProfile.logDir, name)).isFile()) {
       content +=
-        `${'<li>' +
+      `${'<li>' +
         `<a href="/logs/files/${encodeURIComponent(name)}?jwt=${jwt}">`}${
           Utils.escapeHtml(name)
         }</a>` +
-        `</li>`;
+      `</li>`;
     }
   }
 
   content +=
-    '</ul>' +
-    '</body>' +
-    '</html>';
+  '</ul>' +
+  '</body>' +
+  '</html>';
 
   response.send(content);
 });
@@ -67,7 +67,7 @@ LogsController.use('/files', express.static(UserProfile.logDir));
 /**
  * Handle request for logs.zip.
  */
-LogsController.get('/zip', async (request, response) => {
+LogsController.get('/zip', (request, response) => {
   const archive = archiver('zip');
 
   archive.on('error', (err) => {
@@ -78,7 +78,7 @@ LogsController.get('/zip', async (request, response) => {
 
   archive.pipe(response);
   fs.readdirSync(
-    UserProfile.logDir
+  UserProfile.logDir
   ).map((f) => {
     const fullPath = path.join(UserProfile.logDir, f);
     if (!f.startsWith('.') && fs.lstatSync(fullPath).isFile()) {
