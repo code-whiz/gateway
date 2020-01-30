@@ -22,9 +22,11 @@ class Engine {
       rulesPromise = Database.getRules().then(async (ruleDescs) => {
         this.rules = {};
         for (const ruleId in ruleDescs) {
-          ruleDescs[ruleId].id = parseInt(ruleId);
-          this.rules[ruleId] = Rule.fromDescription(ruleDescs[ruleId]);
-          await this.rules[ruleId].start();
+          if (ruleDescs.hasOwnProperty(ruleId)) {
+            ruleDescs[ruleId].id = parseInt(ruleId);
+            this.rules[ruleId] = Rule.fromDescription(ruleDescs[ruleId]);
+            await this.rules[ruleId].start();
+          }
         }
         return this.rules;
       });
@@ -55,7 +57,7 @@ class Engine {
    * @param {Rule} rule
    * @return {Promise<number>} rule id
    */
-  async addRule(rule) {
+  addRule(rule) {
     const id = await Database.createRule(rule.toDescription());
     rule.id = id;
     this.rules[id] = rule;
@@ -69,7 +71,7 @@ class Engine {
    * @param {Rule} rule
    * @return {Promise}
    */
-  async updateRule(ruleId, rule) {
+  updateRule(ruleId, rule) {
     if (!this.rules[ruleId]) {
       return Promise.reject(new Error(`Rule ${ruleId} does not exist`));
     }
