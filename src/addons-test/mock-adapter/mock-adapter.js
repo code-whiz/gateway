@@ -164,14 +164,13 @@ class MockAdapter extends Adapter {
 
   // eslint-disable-next-line no-unused-vars
   startPairing(timeoutSeconds) {
-    console.log('MockAdapter:', this.name, 'id', this.id, 'pairing started');
     if (this.pairDeviceId) {
       const deviceId = this.pairDeviceId;
       const deviceDescription = this.pairDeviceDescription;
       this.pairDeviceId = null;
       this.pairDeviceDescription = null;
       this.addDevice(deviceId, deviceDescription).then(() => {
-        console.log('MockAdapter: device:', deviceId, 'was paired.');
+        
       }).catch((err) => {
         console.error('MockAdapter: unpairing', deviceId, 'failed');
         console.error(err);
@@ -180,16 +179,12 @@ class MockAdapter extends Adapter {
   }
 
   cancelPairing() {
-    console.log('MockAdapter:', this.name, 'id', this.id,
-                'pairing cancelled');
+    
   }
 
   removeThing(device) {
-    console.log('MockAdapter:', this.name, 'id', this.id,
-                'removeThing(', device.id, ') started');
-
     this.removeDevice(device.id).then(() => {
-      console.log('MockAdapter: device:', device.id, 'was unpaired.');
+      
     }).catch((err) => {
       console.error('MockAdapter: unpairing', device.id, 'failed');
       console.error(err);
@@ -197,8 +192,7 @@ class MockAdapter extends Adapter {
   }
 
   cancelRemoveThing(device) {
-    console.log('MockAdapter:', this.name, 'id', this.id,
-                'cancelRemoveThing(', device.id, ')');
+    
   }
 
   setPin(deviceId, pin) {
