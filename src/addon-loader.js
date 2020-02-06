@@ -105,8 +105,6 @@ async function loadAddon(addonPath, verbose) {
   }
 
   return pluginClientPromise.then(() => {
-    console.log('Loading add-on for', manifest.name, 'from', addonPath);
-
     let addonLoader;
     try {
       addonLoader = dynamicRequire(addonPath);
@@ -135,7 +133,6 @@ async function loadAddon(addonPath, verbose) {
 // Get some decent error messages for unhandled rejections. This is
 // often just errors in the code.
 process.on('unhandledRejection', (reason) => {
-  console.log('Unhandled Rejection');
   console.error(reason);
 });
 
@@ -148,7 +145,7 @@ const getopt = new GetOpt([
 const opt = getopt.parseSystem();
 
 if (opt.options.verbose) {
-  console.log(opt);
+  
 }
 
 if (opt.options.help) {
