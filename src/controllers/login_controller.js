@@ -25,7 +25,7 @@ const loginRoot = path.join(Constants.BUILD_STATIC_PATH, 'login');
 /**
  * Serve the static login page
  */
-LoginController.get('/', async (request, response) => {
+LoginController.get('/', (request, response) => {
   response.sendFile('index.html', {root: loginRoot});
 });
 
