@@ -227,6 +227,7 @@ class AddonManagerProxy extends EventEmitter {
               // We should get a propertyChanged notification thru
               // the normal channels, so don't sent another one here.
               // We don't really need to do anything.
+
             }
           }).catch((err) => {
             // Something bad happened. The gateway is still
@@ -252,8 +253,8 @@ class AddonManagerProxy extends EventEmitter {
           .then(() => {
             this.pluginClient.sendNotification(
               Constants.REQUEST_ACTION_RESOLVED, {
-                actionName: actionName,
-                actionId: actionId,
+              actionName,
+              actionId,
               });
           }).catch((err) => {
             console.error('AddonManagerProxy: Failed to request action',
@@ -261,8 +262,8 @@ class AddonManagerProxy extends EventEmitter {
             console.error(err);
             this.pluginClient.sendNotification(
               Constants.REQUEST_ACTION_REJECTED, {
-                actionName: actionName,
-                actionId: actionId,
+              actionName,
+              actionId,
               });
           });
         break;
@@ -275,9 +276,9 @@ class AddonManagerProxy extends EventEmitter {
           .then(() => {
             this.pluginClient.sendNotification(
               Constants.REMOVE_ACTION_RESOLVED, {
-                actionName: actionName,
-                actionId: actionId,
-                messageId: messageId,
+              actionName,
+              actionId,
+              messageId,
               });
           }).catch((err) => {
             console.error('AddonManagerProxy: Failed to remove action',
@@ -285,9 +286,9 @@ class AddonManagerProxy extends EventEmitter {
             console.error(err);
             this.pluginClient.sendNotification(
               Constants.REMOVE_ACTION_REJECTED, {
-                actionName: actionName,
-                actionId: actionId,
-                messageId: messageId,
+              actionName,
+              actionId,
+              messageId,
               });
           });
         break;
@@ -301,7 +302,7 @@ class AddonManagerProxy extends EventEmitter {
             this.pluginClient.sendNotification(
               Constants.SET_PIN_RESOLVED, {
                 device: dev.asDict(),
-                messageId: messageId,
+              messageId,
                 adapterId: adapter.id,
               });
           }).catch((err) => {
@@ -311,8 +312,8 @@ class AddonManagerProxy extends EventEmitter {
 
             this.pluginClient.sendNotification(
               Constants.SET_PIN_REJECTED, {
-                deviceId: deviceId,
-                messageId: messageId,
+              deviceId,
+              messageId,
               });
           });
         break;
@@ -327,7 +328,7 @@ class AddonManagerProxy extends EventEmitter {
             this.pluginClient.sendNotification(
               Constants.SET_CREDENTIALS_RESOLVED, {
                 device: dev.asDict(),
-                messageId: messageId,
+              messageId,
                 adapterId: adapter.id,
               });
           }).catch((err) => {
@@ -338,8 +339,8 @@ class AddonManagerProxy extends EventEmitter {
 
             this.pluginClient.sendNotification(
               Constants.SET_CREDENTIALS_REJECTED, {
-                deviceId: deviceId,
-                messageId: messageId,
+              deviceId,
+              messageId,
               });
           });
         break;
