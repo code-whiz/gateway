@@ -52,18 +52,24 @@ class MockDevice extends Device {
     this.description = deviceDescription.description;
     this.baseHref = `http://127.0.0.1:${adapter.port}`;
     for (const propertyName in deviceDescription.properties) {
-      const propertyDescription = deviceDescription.properties[propertyName];
-      const property =
+      if (deviceDescription.properties.hasOwnProperty(propertyName)) {
+        const propertyDescription = deviceDescription.properties[propertyName];
+        const property =
         new MockProperty(this, propertyName, propertyDescription);
-      this.properties.set(propertyName, property);
+        this.properties.set(propertyName, property);
+      }
     }
 
     for (const actionName in deviceDescription.actions) {
-      this.addAction(actionName, deviceDescription.actions[actionName]);
+      if (deviceDescription.actions.hasOwnProperty(actionName)) {
+        this.addAction(actionName, deviceDescription.actions[actionName]);
+      }
     }
 
     for (const eventName in deviceDescription.events) {
-      this.addEvent(eventName, deviceDescription.events[eventName]);
+      if (deviceDescription.events.hasOwnProperty(eventName)) {
+        this.addEvent(eventName, deviceDescription.events[eventName]);
+      }
     }
   }
 
