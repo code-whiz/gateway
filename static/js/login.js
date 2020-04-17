@@ -9,7 +9,7 @@
 
 const API = require('./api');
 
-(function() {
+(() => {
   const form = document.getElementById('login-form');
   const email = document.getElementById('email');
   const password = document.getElementById('password');
@@ -23,21 +23,21 @@ const API = require('./api');
     const passwordValue = password.value;
 
     API.login(emailValue, passwordValue).
-      then(() => {
-        const search = window.location.search;
-        const match = search.match(/url=([^=&]+)/);
+    then(() => {
+      const search = window.location.search;
+      const match = search.match(/url=([^=&]+)/);
 
-        let url = '/';
-        if (match) {
-          url = decodeURIComponent(match[1]);
-        }
+      let url = '/';
+      if (match) {
+        url = decodeURIComponent(match[1]);
+      }
 
-        window.location.href = url;
-      }).
-      catch((err) => {
-        errorSubmission.classList.remove('hidden');
-        errorSubmission.textContent = err.message;
-        console.error(err);
-      });
+      window.location.href = url;
+    }).
+    catch((err) => {
+      errorSubmission.classList.remove('hidden');
+      errorSubmission.textContent = err.message;
+      console.error(err);
+    });
   });
 })();
