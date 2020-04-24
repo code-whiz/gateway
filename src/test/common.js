@@ -61,10 +61,10 @@ if (debugJasmine) {
   });
 
   const origConsole = console.log;
-  console.log = function() {
+  console.log = function(...params) {
     const pidStr = `${(`     ${process.pid}`).slice(-5)}: `;
-    Array.prototype.unshift.call(arguments, pidStr);
-    origConsole.apply(this, arguments);
+    Array.prototype.unshift.call(params, pidStr);
+    origConsole.apply(this, params);
   };
 }
 
